@@ -1,6 +1,7 @@
 ﻿using InternIntelligence_UserLogin.DTOs;
 using InternIntelligence_UserLogin.Models;
 using InternIntelligence_UserLogin.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -57,9 +58,9 @@ namespace InternIntelligence_UserLogin.Controllers
 
             return Unauthorized(new { Status = "Error", Message = "Invalid username or password" });
         }
-
+        [Authorize]
         [HttpPost("LogOut")]
-        public async Task<IActionResult> Logout([FromBody] string password)
+        public async Task<IActionResult> Logout([FromBody] LogoutDto dto)
         {
             var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             var user = await _userService.GetByIdUser(userId);
@@ -67,7 +68,7 @@ namespace InternIntelligence_UserLogin.Controllers
             {
                 return NotFound(new { Message = "User not found!" });
             }
-            var check = await _userManager.CheckPasswordAsync(user, password);
+            var check = await _userManager.CheckPasswordAsync(user, dto.Password);
             if (check)
             {
                 await _loginService.Logout();

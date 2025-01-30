@@ -72,7 +72,7 @@ builder.Services.AddRateLimiter(options =>
 {
     options.AddFixedWindowLimiter("fixed", opt =>
     {
-        opt.Window = TimeSpan.FromMinutes(1); // limit for an hour
+        opt.Window = TimeSpan.FromMinutes(1); // limit for a minute
         opt.PermitLimit = 5; // max 5 request
         opt.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
         opt.QueueLimit = 2;
