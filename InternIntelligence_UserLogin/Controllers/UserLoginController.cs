@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -12,6 +13,7 @@ namespace InternIntelligence_UserLogin.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableRateLimiting("fixed")]
     public class UserLoginController : ControllerBase
     {
         private readonly LoginService _loginService;
